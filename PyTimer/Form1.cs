@@ -396,11 +396,29 @@ namespace PyTimer
             if(this.WindowState == FormWindowState.Minimized)
             {
                 notifyIcon1.Visible = true;
+                this.Hide();
             }
             else
             {
                 notifyIcon1.Visible = false;
             }
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void 显示主界面ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;  
+        }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
