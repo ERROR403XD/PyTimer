@@ -15,6 +15,7 @@ using IronPython.Modules;
 using System.Xml;
 using Microsoft.Scripting;
 using Microsoft.Scripting.Hosting;
+using System.Diagnostics;
 
 
 
@@ -191,29 +192,7 @@ namespace PyTimer
         private void pyMenu_Opening(object sender, CancelEventArgs e)
         {
 
-        }
-
-        private void 开始运行ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileInfo deleteFile = new FileInfo(m_PysPath + pyList.SelectedItem.ToString());
-            deleteFile.Delete();
-            foreach(XmlNode i in rootNode.ChildNodes)
-            {
-                if(i.Attributes["Name"].Value.Equals((pyList.SelectedItem as PyObject).m_PyName))
-                {
-                    rootNode.RemoveChild(i);
-                    configXml.Save(configPath);
-                    break;
-                }
-            }
-            pyList.Items.Remove(pyList.SelectedItem);
-        }
-
+        }    
         private void PyTimer_Load(object sender, EventArgs e)
         {
 
@@ -346,6 +325,82 @@ namespace PyTimer
             }    
             configXml.Save(configPath);
 
+        }
+
+        private void 停止运行ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pyList.SelectedItem != null)
+            {
+                (pyList.SelectedItem as PyObject).CancelRepeatRunning();
+                UpdatePyList(pyList.SelectedIndex);
+            }     
+        }
+
+        private void 暂停ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pyList.SelectedItem != null)
+            {
+                (pyList.SelectedItem as PyObject).PauseRepeatRunning();
+                UpdatePyList(pyList.SelectedIndex);
+            }
+        }
+        private void 开始运行ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pyList.SelectedItem != null)
+            {
+                (pyList.SelectedItem as PyObject).StartRepeatRunning();
+                UpdatePyList(pyList.SelectedIndex);
+            }
+        }
+
+        private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileInfo deleteFile = new FileInfo(m_PysPath + pyList.SelectedItem.ToString());
+            deleteFile.Delete();
+            foreach (XmlNode i in rootNode.ChildNodes)
+            {
+                if (i.Attributes["Name"].Value.Equals((pyList.SelectedItem as PyObject).m_PyName))
+                {
+                    rootNode.RemoveChild(i);
+                    configXml.Save(configPath);
+                    break;
+                }
+            }
+            pyList.Items.Remove(pyList.SelectedItem);
+        }
+
+        private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(pyList.SelectedItem != null)
+            {
+                Process pyToOpen = new Process();
+                pyToOpen.StartInfo.FileName = ("\"" + PysPath.FullName + (pyList.SelectedItem as PyObject).m_PyName + "\"");
+                pyToOpen.Start();
+                pyToOpen.Dispose();
+            }   
+        }
+
+        private void 打开文件夹ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pyList.SelectedItem != null)
+            {
+                Process pyToOpen = new Process();
+                pyToOpen.StartInfo.FileName = ("\"" + PysPath.FullName+"\"");
+                pyToOpen.Start();
+                pyToOpen.Dispose();
+            }
+        }
+
+        private void PyTimer_Resize(object sender, EventArgs e)
+        {
+            if(this.WindowState == FormWindowState.Minimized)
+            {
+                notifyIcon1.Visible = true;
+            }
+            else
+            {
+                notifyIcon1.Visible = false;
+            }
         }
     }
 }
