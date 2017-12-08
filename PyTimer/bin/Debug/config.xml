@@ -1,5 +1,5 @@
 <PyObjects>
-  <PyObject Name="OpusGifManager.py" RptTime="5000" AutoRun="0" />
+  <PyObject Name="OpusGifManager.py" RptTime="60000" AutoRun="0" />
   <PyObject Name="DeleteTxt.py" RptTime="20000" AutoRun="0" />
   <PyObject Name="RandomCreate - 副本 - 副本.py" RptTime="3000" AutoRun="0" />
   <PyObject Name="RandomCreate - 副本.py" RptTime="2000" AutoRun="0" />

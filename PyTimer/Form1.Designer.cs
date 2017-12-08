@@ -33,6 +33,7 @@
             this.pyList = new System.Windows.Forms.ListBox();
             this.pyMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.开始运行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.暂停ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.停止运行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开文件夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,7 +50,12 @@
             this.pauseAllButton = new System.Windows.Forms.Button();
             this.cancelAllButton = new System.Windows.Forms.Button();
             this.autoRunCheck = new System.Windows.Forms.CheckBox();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.iconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.显示主界面ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pyMenu.SuspendLayout();
+            this.iconMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // pyList
@@ -67,12 +73,13 @@
             // 
             this.pyMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.开始运行ToolStripMenuItem,
+            this.暂停ToolStripMenuItem,
             this.停止运行ToolStripMenuItem,
             this.打开ToolStripMenuItem,
             this.打开文件夹ToolStripMenuItem,
             this.删除ToolStripMenuItem});
             this.pyMenu.Name = "pyMenu";
-            this.pyMenu.Size = new System.Drawing.Size(137, 114);
+            this.pyMenu.Size = new System.Drawing.Size(137, 136);
             this.pyMenu.Opening += new System.ComponentModel.CancelEventHandler(this.pyMenu_Opening);
             // 
             // 开始运行ToolStripMenuItem
@@ -82,23 +89,33 @@
             this.开始运行ToolStripMenuItem.Text = "开始运行";
             this.开始运行ToolStripMenuItem.Click += new System.EventHandler(this.开始运行ToolStripMenuItem_Click);
             // 
+            // 暂停ToolStripMenuItem
+            // 
+            this.暂停ToolStripMenuItem.Name = "暂停ToolStripMenuItem";
+            this.暂停ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.暂停ToolStripMenuItem.Text = "暂停";
+            this.暂停ToolStripMenuItem.Click += new System.EventHandler(this.暂停ToolStripMenuItem_Click);
+            // 
             // 停止运行ToolStripMenuItem
             // 
             this.停止运行ToolStripMenuItem.Name = "停止运行ToolStripMenuItem";
             this.停止运行ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.停止运行ToolStripMenuItem.Text = "停止运行";
+            this.停止运行ToolStripMenuItem.Click += new System.EventHandler(this.停止运行ToolStripMenuItem_Click);
             // 
             // 打开ToolStripMenuItem
             // 
             this.打开ToolStripMenuItem.Name = "打开ToolStripMenuItem";
             this.打开ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.打开ToolStripMenuItem.Text = "打开";
+            this.打开ToolStripMenuItem.Click += new System.EventHandler(this.打开ToolStripMenuItem_Click);
             // 
             // 打开文件夹ToolStripMenuItem
             // 
             this.打开文件夹ToolStripMenuItem.Name = "打开文件夹ToolStripMenuItem";
             this.打开文件夹ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.打开文件夹ToolStripMenuItem.Text = "打开文件夹";
+            this.打开文件夹ToolStripMenuItem.Click += new System.EventHandler(this.打开文件夹ToolStripMenuItem_Click);
             // 
             // 删除ToolStripMenuItem
             // 
@@ -224,6 +241,35 @@
             this.autoRunCheck.UseVisualStyleBackColor = true;
             this.autoRunCheck.CheckedChanged += new System.EventHandler(this.autoRunCheck_CheckedChanged);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.ContextMenuStrip = this.iconMenu;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "PyTimer";
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
+            // iconMenu
+            // 
+            this.iconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.显示主界面ToolStripMenuItem,
+            this.退出ToolStripMenuItem});
+            this.iconMenu.Name = "iconMenu";
+            this.iconMenu.Size = new System.Drawing.Size(153, 70);
+            // 
+            // 显示主界面ToolStripMenuItem
+            // 
+            this.显示主界面ToolStripMenuItem.Name = "显示主界面ToolStripMenuItem";
+            this.显示主界面ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.显示主界面ToolStripMenuItem.Text = "显示主界面";
+            this.显示主界面ToolStripMenuItem.Click += new System.EventHandler(this.显示主界面ToolStripMenuItem_Click);
+            // 
+            // 退出ToolStripMenuItem
+            // 
+            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.退出ToolStripMenuItem.Text = "退出";
+            this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
+            // 
             // PyTimer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -246,7 +292,9 @@
             this.Name = "PyTimer";
             this.Text = "PyTimer";
             this.Load += new System.EventHandler(this.PyTimer_Load);
+            this.Resize += new System.EventHandler(this.PyTimer_Resize);
             this.pyMenu.ResumeLayout(false);
+            this.iconMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -273,6 +321,11 @@
         private System.Windows.Forms.CheckBox autoRunCheck;
         private System.Windows.Forms.ToolStripMenuItem 打开ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开文件夹ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 暂停ToolStripMenuItem;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ContextMenuStrip iconMenu;
+        private System.Windows.Forms.ToolStripMenuItem 显示主界面ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
     }
 }
 
