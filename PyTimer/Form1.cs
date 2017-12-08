@@ -92,6 +92,7 @@ namespace PyTimer
                     if(tempPyObj.autoRun)
                     {
                         tempPyObj.StartRepeatRunning();
+                        UpdatePyList(pyList.Items.IndexOf(tempPyObj));
                     }                  
                 }
                 else
